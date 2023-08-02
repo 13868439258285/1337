@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+    <title>pacho on top</title>
+</head>
+<body>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>free botting service!!</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <body>
+        <div class="navbar">
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+            </div>
+            <div class="nav-links">
+                <a href="ebay.html">eBay</a>
+                <a href="tiktok.html">Tiktok</a>
+                <a href="Us.html">who made us</a>
+            </div>
+        </div>
+        <div class="container">
+            <div class="content">
+    <h1>pacho made this website for any support text me on telegram t.me/pachotk</h1>
+    <p>i also have a paid botting service where i bot likes , comments , followers on ALL current mainstream socials</p>
+            </div>
+            <div class="sidebar">
+                <h3>About Us</h3>
+                <ul>
+                    <li class="question">What do we do?</li>
+                    <li class="answer">We provide top-notch botting services.</li>
+                </ul>
+                <a class="discord-button" href="https://discord.gg/EJ3JXkZKzq" target="_blank">Join our Discord Server</a>
+            </div>
+        </div>
+        <div class="popup" id="success-popup">
+            <div class="popup-content">
+                <span class="close" onclick="closePopup()">&times;</span>
+                <p>Option selected successfully!</p>
+                <div class="loading-bar"></div>
+            </div>
+        </div>
+        <button class="dark-mode-toggle" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+    
+        <script>
+            // Add JavaScript code here for handling the form submission and the success popup
+    
+            function closePopup() {
+                document.getElementById("success-popup").style.display = "none";
+            }
+    
+            function toggleDarkMode() {
+                // Add JavaScript code here for toggling dark mode
+                // You can use localStorage or other methods to store the user's dark mode preference
+            }
+        </script>
+    </body>
+    </html>
+    
+    <div class="nav-links">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('ebay') }}">eBay</a>
+        <a href="{{ url_for('tiktok') }}">Tiktok</a>
+        <a href="Us.html">who made us</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TwinSupply Botting Service</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #fff;
+        }
+
+        body.dark-mode input[type="text"] {
+            background-color: #121212;
+            color: #fff;
+        }
+
+        body.dark-mode .faq {
+            background-color: #121212;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('ebay') }}">eBay</a>
+            <a href="{{ url_for('tiktok') }}">Tiktok</a>
+            <a href="Us.html">who made us</a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="header">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo">
+            <h1>TwinSupply</h1>
+            <h2>developed by Pacho</h2>
+        </div>
+        <!-- Dark Mode Toggle Button -->
+        <button onclick="toggleDarkMode()" class="dark-mode-toggle">Toggle Dark Mode</button>
+        <div class="content">
+            <form id="watcherForm">
+                <label for="url">eBay Link:</label>
+                <input type="text" id="url" placeholder="Enter eBay Link" required>
+                
+                <label for="views">Number of Views:</label>
+                <input type="range" id="views" min="1" max="5000" value="1">
+                <output for="views" id="viewsOutput">1</output>
+                
+                <label for="useDelay">Use Delay:</label>
+                <input type="checkbox" id="useDelay" name="use_delay" onchange="toggleDelay()">
+                
+                <div id="delayInput" style="display: none;">
+                    <label for="delay">Delay (seconds):</label>
+                    <input type="number" id="delay" name="delay" min="1" value="1">
+                </div>
+                
+                <button type="button" onclick="startWatchers()">Add Views</button>
+                <div class="loading-bar" id="loadingBar" style="display: none;"></div>
+            </form>
+        </div>
+        <div class="sidebar faq">
+            <h3>FAQ</h3>
+            <ul>
+                <li>
+                    <span class="question">Will I get banned?</span>
+                    <span class="answer">No, our service is designed to be safe and undetectable.</span>
+                </li>
+                <li>
+                    <span class="question">How do I bypass the cooldown?</span>
+                    <span class="answer">By donating, you can access the premium features and remove the cooldown.</span>
+                </li>
+                <!-- Add more FAQ questions and answers here -->
+            </ul>
+            <h3>Join our Discord Server</h3>
+            <a href="https://discord.gg/EJ3JXkZKzq" target="_blank" class="discord-button">Join Now</a>
+        </div>
+    </div>
+    <!-- Updated Success Popup Styles -->
+    <div id="successPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <p>Successfully Bot the URL with <span id="botsAmount">0</span> bots!</p>
+        </div>
+    </div>
+    <script>
+        const viewsSlider = document.getElementById('views');
+        const viewsOutput = document.getElementById('viewsOutput');
+        let isDarkMode = false;
+
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+            } else {
+                document.body.classList.remove('dark-mode');
+            }
+        }
+
+        function toggleDelay() {
+            const useDelayCheckbox = document.getElementById('useDelay');
+            const delayInput = document.getElementById('delayInput');
+
+            if (useDelayCheckbox.checked) {
+                delayInput.style.display = 'block';
+            } else {
+                delayInput.style.display = 'none';
+            }
+        }
+
+        function startWatchers() {
+            const url = document.getElementById('url').value;
+            const views = parseInt(document.getElementById('views').value);
+            const useDelay = document.getElementById('useDelay').checked;
+            const delay = parseInt(document.getElementById('delay').value);
+
+            const data = new FormData();
+            data.append('url', url);
+            data.append('views', views);
+            if (useDelay) {
+                data.append('use_delay', 'true');
+                data.append('delay', delay);
+            }
+
+            const loadingBar = document.getElementById('loadingBar');
+            loadingBar.style.display = 'block';
+
+            fetch('/', {
+    method: 'POST',
+    body: data
+})
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    openSuccessPopup(data.views);
+                }
+                loadingBar.style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                loadingBar.style.display = 'none';
+            });
+        }
+
+        function closePopup() {
+            document.getElementById('successPopup').style.display = 'none';
+        }
+
+        function openSuccessPopup(bots) {
+            const popup = document.getElementById('successPopup');
+            const botsAmount = document.getElementById('botsAmount');
+            botsAmount.textContent = bots;
+            popup.style.display = 'block';
+            console.log('Successfully bot the URL with ' + bots + ' bots!');
+        }
+
+        // Function to update views amount display
+        function updateViewsAmount() {
+            viewsOutput.textContent = viewsSlider.value;
+        }
+
+        // Add event listeners to update views amount when the slider is moved
+        viewsSlider.addEventListener('input', updateViewsAmount);
+        viewsSlider.addEventListener('change', updateViewsAmount);
+
+        // Call the updateViewsAmount function initially to set the default value
+        updateViewsAmount();
+    </script>
+</body>
+</html>
